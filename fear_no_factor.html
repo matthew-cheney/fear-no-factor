@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bare - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link type="text/css" href="main.css" rel="stylesheet">
+
+</head>
+
+<body onload="loadFirstProblem()">
+
+  <!-- Page Content -->
+  <div class="container h-100">
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1><span id="totalProblemsPassed">0</span> problem(s) completed</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h1 class="xl_h1" id="numberToFactor" onclick="clicked()"></h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4 text-center">
+        <h1 class="l_h1"><span id="factor1"></span></h1>
+      </div>
+      <div class="col-lg-4 text-center">
+        <h1 class="l_h1">X</h1>
+      </div>
+      <div class="col-lg-4 text-center">
+        <h1 class="l_h1"><span id="factor2"></span></h1>
+      </div>
+    </div>
+
+    <div class="row">
+
+
+      <div class="col-lg-4 text-center">
+        <table class="table numpad">
+          <tr>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 7)">7</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 8)">8</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 9)">9</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 4)">4</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 5)">5</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 6)">6</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 1)">1</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 2)">2</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 3)">3</button></td>
+          </tr>
+          <tr>
+            <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(1, 0)">0</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, -1)"><-</button></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-lg-4 text-center">
+
+        <div><h1><span id="possiblePairs">1</span> factor pair(s) remaining</h1></div>
+        <!-- <div id="grader"></div> -->
+        <div id="guessedPairs"></div>
+      </div>
+
+      <div class="col-lg-4">
+        <table class="table numpad">
+          <tr>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 7)">7</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 8)">8</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 9)">9</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 4)">4</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 5)">5</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 6)">6</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 1)">1</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 2)">2</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 3)">3</button></td>
+          </tr>
+          <tr>
+            <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(2, 0)">0</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, -1)"><-</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-lg-12">
+        <button class="btn btn-primary submit_button" onclick="submitAnswers()">Submit</button>
+        <button class="btn btn-primary submit_button" id="nextProblemButton" onclick="nextProblem()" disabled>Next Problem</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.slim.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+    // Numpad functionality
+
+    function numPress(numpad, number) {
+      // console.log(numpad);
+      // console.log(number);
+      if (number != "-1") {
+        addDigit(numpad, number);
+      } else {
+        removeDigit(numpad);
+      }
+    }
+
+    function addDigit(factorField, digit) {
+      factorID = "factor" + factorField;
+      console.log(factorID);
+
+      factorField = document.getElementById(factorID);
+      contents = factorField.innerHTML;
+      factorField.innerHTML = contents + digit
+
+    }
+
+    function removeDigit(factorField) {
+      factorID = "factor" + factorField;
+      console.log(factorID);
+
+      factorField = document.getElementById(factorID);
+      contents = factorField.innerHTML;
+      if (contents.length > 0) {
+        contents = contents.substring(0, contents.length - 1);
+      }
+      factorField.innerHTML = contents;
+
+    }
+
+
+
+
+
+    // Tracking factoring functionality
+
+    var guessedPairs
+    var factorPairs
+    var totalProblemsPassed
+
+    function loadFirstProblem() {
+      totalProblemsPassed = 0
+      loadNewProblem()
+      cookieTotalProblemsPassed = getCookie('totalProblemsPassed')
+      if (cookieTotalProblemsPassed != "") {
+        totalProblemsPassed = parseInt(cookieTotalProblemsPassed)
+        document.getElementById('totalProblemsPassed').innerHTML = totalProblemsPassed
+      }
+    }
+
+    function loadNewProblem() {
+      resetForNewProblem()
+      product = getNumber()
+      document.getElementById('numberToFactor').innerHTML = product
+      factorPairs = findFactors(product)
+      document.getElementById('possiblePairs').innerHTML = factorPairs.length
+      setGuessedPairs()
+    }
+
+    function resetForNewProblem() {
+      factorPairs = []
+      guessedPairs = []
+      document.getElementById('factor1').innerHTML = ""
+      document.getElementById('factor2').innerHTML = ""
+      // document.getElementById('grader').innerHTML = ""
+      document.getElementById('possiblePairs').innerHTML = ""
+      document.getElementById('guessedPairs').innerHTML = ""
+      document.getElementById('nextProblemButton').disabled = true
+    }
+
+    function findFactors(product) {
+      // Returns array of L2 arrays of factors for product
+      var factorPairs = []
+      var i;
+      for (i = 0; i < (product / 2) + 1; i++) {
+        if ((product % i) == 0) {
+          newPair = [i, product / i]
+          reversedPair = [product / i, i]
+          if (!isInArray(newPair, factorPairs)) {
+            factorPairs.push([i, (product / i)])
+          }
+        }
+      }
+      return factorPairs
+    }
+
+    function isInArray(item, array) {
+      // Checks if item (an array of length 2) is in array
+      // console.log("in isInArray with:")
+      // console.log("item", item, "array", array)
+      for (j = 0; j < array.length; j++) {
+        if (item[0] == array[j][0] && item[1] == array[j][1] ||
+            item[0] == array[j][1] && item[1] == array[j][0]) {
+          // console.log(item, "is in", array)
+          return true
+        }
+      }
+      return false
+    }
+
+    function clicked() {
+      submitAnswers()
+    }
+
+    function getNumber() {
+      return getRandomInt(144)
+    }
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    function submitAnswers() {
+      console.log("in submitAnswers")
+      product = parseInt(document.getElementById('numberToFactor').innerHTML)
+      factor1 = parseInt(document.getElementById('factor1').innerHTML)
+      factor2 = parseInt(document.getElementById('factor2').innerHTML)
+
+      console.log("checking for previous guess")
+      if (isInArray([factor1, factor2], guessedPairs)) {
+        // document.getElementById('grader').innerHTML = "You already guessed that pair"
+        return
+      }
+
+      console.log("checking factors")
+      if (checkFactors(product, factor1, factor2)) {
+        // Factors 1 and 2 do multiply to Product
+        // document.getElementById('grader').innerHTML = "correct!"
+        // console.log(typeof factor1)
+        if (factor1 < factor2) {
+          guessedPairs.push([factor1, factor2])
+          // console.log(factor1, "<", factor2)
+        } else {
+          guessedPairs.push([factor2, factor1])
+          // console.log(factor2, "<", factor1)
+        }
+        setGuessedPairs()
+        setPairsRemaining()
+      } else {
+        // Incorrect factors
+        // document.getElementById('grader').innerHTML = "try again!"
+      }
+
+      if (guessedPairs.length == factorPairs.length) {
+        document.getElementById('nextProblemButton').disabled = false
+        totalProblemsPassed += 1
+        setCookie("totalProblemsPassed", totalProblemsPassed, 160)
+        document.getElementById('totalProblemsPassed').innerHTML = totalProblemsPassed
+
+      }
+
+    }
+
+    function setGuessedPairs() {
+      console.log("in setGuessedPairs")
+      var pairsString = ""
+      product = document.getElementById('numberToFactor').innerHTML;
+      // Sort guessedPairs by first elements
+      console.log("sorting guessPairs")
+      guessedPairs.sort(function(a,b){return a[0] > b[0];});
+      console.log("populating list")
+      for (i = 0; i < factorPairs.length; i++) {
+        console.log("checking membership")
+        if (guessedPairs.length > 0 && isInArray(factorPairs[i], guessedPairs)) {
+          // Pair has been guessed
+          console.log("pair has been guessed")
+          outString = factorPairs[i][0] + " X " + factorPairs[i][1] + " = " + product
+        } else {
+          // Pair has not been guessed
+          console.log("pair has not been guessed")
+          outString = "_ X _ = " + product
+        }
+
+        pairsString += "<p>"
+        pairsString += outString
+        pairsString += "</p>"
+      }
+      document.getElementById('guessedPairs').innerHTML = pairsString
+    }
+
+    function setPairsRemaining() {
+      console.log("in setPairsRemaining")
+      document.getElementById("possiblePairs").innerHTML = (factorPairs.length - guessedPairs.length)
+    }
+
+    function checkFactors(product, factor1, factor2) {
+      console.log("in checkFactors")
+      if ((product / factor1) == factor2) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    function nextProblem() {
+      if (guessedPairs.length == factorPairs.length) {
+        loadNewProblem()
+      }
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      var expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      console.log(ca)
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+
+  </script>
+
+</body>
+
+</html>

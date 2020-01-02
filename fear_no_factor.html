@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Bare - Start Bootstrap Template</title>
+  <title>Fear No Factor</title>
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -18,8 +18,31 @@
 
 <body onload="loadFirstProblem()">
 
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="fear_no_factor.html">Fear No Factor</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="fear_no_factor.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <!-- Page Content -->
-  <div class="container h-100">
+  <div class="container">
 
     <div class="row">
       <div class="col-lg-12">
@@ -66,14 +89,18 @@
             <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 3)">3</button></td>
           </tr>
           <tr>
-            <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(1, 0)">0</button></td>
-            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, -1)"><-</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(1, 0)">0</button></td>
+            <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(1, -1)"><-</button></td>
+          </tr>
+          <tr>
+            <td colspan='3'><button class="btn btn-primary numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
           </tr>
         </table>
       </div>
       <div class="col-lg-4 text-center">
 
-        <div><h1><span id="possiblePairs">1</span> factor pair(s) remaining</h1></div>
+        <div><h2><span id="possiblePairs">1</span> factor pair(s) remaining</h2></div>
+        <hr>
         <!-- <div id="grader"></div> -->
         <div id="guessedPairs"></div>
       </div>
@@ -99,13 +126,10 @@
             <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(2, 0)">0</button></td>
             <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, -1)"><-</button></td>
           </tr>
+          <tr>
+            <td colspan='3'><button class="btn btn-primary numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
+          </tr>
         </table>
-      </div>
-    </div>
-    <div class="row text-center">
-      <div class="col-lg-12">
-        <button class="btn btn-primary submit_button" onclick="submitAnswers()">Submit</button>
-        <button class="btn btn-primary submit_button" id="nextProblemButton" onclick="nextProblem()" disabled>Next Problem</button>
       </div>
     </div>
   </div>
@@ -134,6 +158,9 @@
 
       factorField = document.getElementById(factorID);
       contents = factorField.innerHTML;
+      if (contents.length >= 3) {
+        return
+      }
       factorField.innerHTML = contents + digit
 
     }
@@ -188,7 +215,7 @@
       // document.getElementById('grader').innerHTML = ""
       document.getElementById('possiblePairs').innerHTML = ""
       document.getElementById('guessedPairs').innerHTML = ""
-      document.getElementById('nextProblemButton').disabled = true
+      setSubmitButtons(true)
     }
 
     function findFactors(product) {
@@ -233,11 +260,35 @@
       return Math.floor(Math.random() * Math.floor(max));
     }
 
+    function submitButtonPress() {
+      if (guessedPairs.length == factorPairs.length) {
+        nextProblem()
+      } else {
+        submitAnswers()
+      }
+    }
+
+    function setSubmitButtons(submit) {
+      allButtons = document.getElementsByClassName('submitButton')
+      if (submit) {
+        for (var i = 0; i < allButtons.length; i++) {
+          allButtons[i].innerHTML = "Submit"
+        }
+      } else {
+        for (var i = 0; i < allButtons.length; i++) {
+          allButtons[i].innerHTML = "Next Problem"
+        }
+      }
+    }
+
     function submitAnswers() {
       console.log("in submitAnswers")
       product = parseInt(document.getElementById('numberToFactor').innerHTML)
       factor1 = parseInt(document.getElementById('factor1').innerHTML)
       factor2 = parseInt(document.getElementById('factor2').innerHTML)
+
+      document.getElementById('factor1').innerHTML = ""
+      document.getElementById('factor2').innerHTML = ""
 
       console.log("checking for previous guess")
       if (isInArray([factor1, factor2], guessedPairs)) {
@@ -265,11 +316,10 @@
       }
 
       if (guessedPairs.length == factorPairs.length) {
-        document.getElementById('nextProblemButton').disabled = false
         totalProblemsPassed += 1
         setCookie("totalProblemsPassed", totalProblemsPassed, 160)
         document.getElementById('totalProblemsPassed').innerHTML = totalProblemsPassed
-
+        setSubmitButtons(false)
       }
 
     }
@@ -294,9 +344,9 @@
           outString = "_ X _ = " + product
         }
 
-        pairsString += "<p>"
+        pairsString += "<h2>"
         pairsString += outString
-        pairsString += "</p>"
+        pairsString += "</h2>"
       }
       document.getElementById('guessedPairs').innerHTML = pairsString
     }

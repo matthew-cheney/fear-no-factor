@@ -108,7 +108,10 @@
   }
 
   function getNumber() {
-    return getRandomInt(144)
+    while ((toReturn = getRandomInt(144)) == 0) {
+
+    }
+    return toReturn
   }
 
   function getRandomInt(max) {

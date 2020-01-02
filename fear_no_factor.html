@@ -44,9 +44,9 @@
   <!-- Page Content -->
   <div class="container">
 
-    <div class="row">
+    <div class="row text-center">
       <div class="col-lg-12">
-        <h1><span id="totalProblemsPassed">0</span> problem(s) completed</h1>
+        <h1><span id="totalProblemsPassed">0</span> problems completed</h1>
       </div>
     </div>
 
@@ -123,8 +123,8 @@
             <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 3)">3</button></td>
           </tr>
           <tr>
-            <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(2, 0)">0</button></td>
-            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, -1)"><-</button></td>
+            <td><button class="btn btn-primary numpadbutton" onclick="numPress(2, 0)">0</button></td>
+            <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(2, -1)"><-</button></td>
           </tr>
           <tr>
             <td colspan='3'><button class="btn btn-primary numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
@@ -273,10 +273,12 @@
       if (submit) {
         for (var i = 0; i < allButtons.length; i++) {
           allButtons[i].innerHTML = "Submit"
+          allButtons[i].className = "btn btn-success numpadbutton submitButton"
         }
       } else {
         for (var i = 0; i < allButtons.length; i++) {
           allButtons[i].innerHTML = "Next Problem"
+          allButtons[i].className = "btn btn-warning numpadbutton submitButton"
         }
       }
     }

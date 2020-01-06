@@ -193,18 +193,22 @@
     guessedPairs.sort(function(a,b){return a[0] > b[0];});
     console.log("populating list")
     for (i = 0; i < factorPairs.length; i++) {
+      var classes = ""
       console.log("checking membership")
       if (guessedPairs.length > 0 && isInArray(factorPairs[i], guessedPairs)) {
         // Pair has been guessed
         console.log("pair has been guessed")
-        outString = factorPairs[i][0] + " X " + factorPairs[i][1] + " = " + product
+        outString = factorPairs[i][0] + " * " + factorPairs[i][1] + " = " + product
+        classes = "guessed"
       } else {
         // Pair has not been guessed
         console.log("pair has not been guessed")
-        outString = "_ X _ = " + product
+        outString = "_ * _ = " + product
       }
 
-      pairsString += "<h2>"
+      pairsString += "<h2 class=\""
+      pairsString += classes
+      pairsString += "\">"
       pairsString += outString
       pairsString += "</h2>"
     }

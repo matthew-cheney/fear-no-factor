@@ -4,11 +4,11 @@
 }
 
 .xl_h1 {
-  font-size: 80pt;
+  font-size: 50pt;
 }
 
 .l_h1 {
-  font-size: 65pt;
+  font-size: 45pt;
 }
 
 .numpad button {
@@ -22,4 +22,8 @@
 
 html, body {
   height: 100%;
+}
+
+.guessed {
+   background-color: #d7ffe2;
 }

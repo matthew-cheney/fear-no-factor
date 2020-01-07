@@ -26,6 +26,7 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+      <button id="modeButton" class="btn btn-warning hideMe" onclick="toggleMode()">Basic Mode</button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
@@ -47,7 +48,7 @@
 
     <div class="row text-center">
       <div class="col-lg-12">
-        <h1><span id="totalProblemsPassed">0</span> problems completed</h1>
+        <h1><span id="totalProblemsPassed" onchange="stopTampering()">0</span> problems completed</h1>
       </div>
     </div>
 
@@ -94,7 +95,7 @@
             <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(1, -1)"><-</button></td>
           </tr>
           <tr>
-            <td colspan='3'><button class="btn btn-primary numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
+            <td colspan='3'><button class="btn btn-success numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
           </tr>
         </table>
       </div>
@@ -128,7 +129,7 @@
             <td colspan='2'><button class="btn btn-primary numpadbutton" onclick="numPress(2, -1)"><-</button></td>
           </tr>
           <tr>
-            <td colspan='3'><button class="btn btn-primary numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
+            <td colspan='3'><button class="btn btn-success numpadbutton submitButton" onclick="submitButtonPress()">Submit</button></td>
           </tr>
         </table>
       </div>

@@ -1,3 +1,6 @@
+  var BASIC_LIMIT = 144
+  var ADVANCED_LIMIT = 300
+
   // Numpad functionality
 
   function numPress(numpad, number) {
@@ -36,6 +39,9 @@
 
   }
 
+  function stopTampering() {
+    alert("hey");
+  }
 
   // Tracking factoring functionality
 
@@ -44,9 +50,14 @@
   var totalProblemsPassed
 
   function loadFirstProblem() {
+    setupPage()
     totalProblemsPassed = 0
     loadNewProblem()
-    cookieTotalProblemsPassed = getCookie('totalProblemsPassed')
+    if (mode == 0) {
+      cookieTotalProblemsPassed = getCookie('totalProblemsPassedBasic')
+    } else {
+      cookieTotalProblemsPassed = getCookie('totalProblemsPassedAdvanced')
+    }
     if (cookieTotalProblemsPassed != "") {
       totalProblemsPassed = parseInt(cookieTotalProblemsPassed)
       document.getElementById('totalProblemsPassed').innerHTML = totalProblemsPassed
@@ -54,8 +65,30 @@
   }
 
   function loadNewProblem() {
+    if (mode == 0) {
+      // Basic mode
+      if (getCookie("getNewBasic") == "false") {
+        // Use the product stored in cookie
+        console.log("getting basic cookie product")
+        product = getCookie("basicProduct");
+      } else {
+        product = getNumber()
+        setCookie("basicProduct", product, 160);
+        setCookie("getNewBasic", "false", 160)
+      }
+    } else {
+      // Advanced mode
+      if (getCookie("getNewAdvanced") == "false") {
+        // Use the product stored in cookie
+        console.log("getting advanced cookie product")
+        product = getCookie("advancedProduct");
+      } else {
+        product = getNumber()
+        setCookie("advancedProduct", product, 160);
+        setCookie("getNewAdvanced", "false", 160);
+      }
+    }
     resetForNewProblem()
-    product = getNumber()
     document.getElementById('numberToFactor').innerHTML = product
     factorPairs = findFactors(product)
     document.getElementById('possiblePairs').innerHTML = factorPairs.length
@@ -108,10 +141,17 @@
   }
 
   function getNumber() {
-    while ((toReturn = getRandomInt(144)) == 0) {
-
+    if (mode == 0) {
+      while ((toReturn = getRandomInt(BASIC_LIMIT)) == 0) {
+        // Loop until non-zero number is found
+      }
+      return toReturn
+    } else {
+      while ((toReturn = getRandomInt(ADVANCED_LIMIT)) == 0) {
+        // Loop until non-zero number is found
+      }
+      return toReturn
     }
-    return toReturn
   }
 
   function getRandomInt(max) {
@@ -176,12 +216,24 @@
     }
 
     if (guessedPairs.length == factorPairs.length) {
-      totalProblemsPassed += 1
-      setCookie("totalProblemsPassed", totalProblemsPassed, 160)
-      document.getElementById('totalProblemsPassed').innerHTML = totalProblemsPassed
-      setSubmitButtons(false)
+      setTotalProblemsPassed(parseInt(totalProblemsPassed) + 1)
+      if (mode == 0) {
+        // Basic mode
+        setCookie("getNewBasic", "true", 160);
+        setCookie("totalProblemsPassedBasic", totalProblemsPassed, 160)
+      } else {
+        // Advanced mode
+        setCookie("getNewAdvanced", "true", 160);
+        setCookie("totalProblemsPassedAdvanced", totalProblemsPassed, 160)
+      }
     }
+    setSubmitButtons(false)
 
+  }
+
+  function setTotalProblemsPassed(newAmount) {
+    totalProblemsPassed = newAmount
+    document.getElementById('totalProblemsPassed').innerHTML = totalProblemsPassed
   }
 
   function setGuessedPairs() {
@@ -257,4 +309,51 @@
       }
     }
     return "";
+  }
+
+  // Mode functionality
+
+  // 0 = basic, 1 = advanced
+  var mode = 0;
+
+  function setupPage() {
+    console.log("in setupPage");
+    mode = getCookie("mode");
+    console.log("mode: ", mode);
+    setModeButton();
+  }
+
+  function toggleMode() {
+    console.log("in toggle mode")
+    if (mode == 0) {
+      // Basic mode -> Advanced mode
+      mode = 1;
+      setCookie("totalProblemsPassedBasic", totalProblemsPassed, 160)
+      newTotalProblemsPassed = getCookie("totalProblemsPassedAdvanced")
+    } else {
+      // Advanced mode -> Basic mode
+      mode = 0;
+      setCookie("totalProblemsPassedAdvanced", totalProblemsPassed, 160)
+      newTotalProblemsPassed = getCookie("totalProblemsPassedBasic")
+    }
+    if (newTotalProblemsPassed == "") {
+      newTotalProblemsPassed = 0
+    }
+    setTotalProblemsPassed(newTotalProblemsPassed)
+    setCookie("mode", mode, 160);
+    setModeButton();
+    loadNewProblem();
+  }
+
+  function setModeButton() {
+    modeButton = document.getElementById('modeButton')
+    if (mode == 0) {
+      // Basic mode
+      modeButton.className = "btn btn-warning"
+      modeButton.innerHTML = "Basic Mode"
+    } else {
+      // Advanced mode
+      modeButton.className = "btn btn-danger"
+      modeButton.innerHTML = "Advanced Mode"
+    }
   }

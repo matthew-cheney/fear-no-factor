@@ -142,10 +142,9 @@
 
   function getNumber() {
     if (mode == 0) {
-      while ((toReturn = getRandomInt(BASIC_LIMIT)) == 0) {
-        // Loop until non-zero number is found
-      }
-      return toReturn
+      baseFactorOne = (getRandomInt(11) + 1)
+      baseFactorTwo = (getRandomInt(11) + 1)
+      return baseFactorOne * baseFactorTwo
     } else {
       while ((toReturn = getRandomInt(ADVANCED_LIMIT)) == 0) {
         // Loop until non-zero number is found
@@ -356,4 +355,10 @@
       modeButton.className = "btn btn-danger"
       modeButton.innerHTML = "Advanced Mode"
     }
+  }
+
+  // Development functionality
+
+  function manualGetProduct() {
+    console.log(getNumber())
   }

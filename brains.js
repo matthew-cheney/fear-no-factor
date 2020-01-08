@@ -48,6 +48,7 @@
   var guessedPairs
   var factorPairs
   var totalProblemsPassed
+  var product
 
   function loadFirstProblem() {
     setupPage()
@@ -182,7 +183,7 @@
 
   function submitAnswers() {
     console.log("in submitAnswers")
-    product = parseInt(document.getElementById('numberToFactor').innerHTML)
+    // product = parseInt(document.getElementById('numberToFactor').innerHTML)
     factor1 = parseInt(document.getElementById('factor1').innerHTML)
     factor2 = parseInt(document.getElementById('factor2').innerHTML)
 
@@ -225,8 +226,8 @@
         setCookie("getNewAdvanced", "true", 160);
         setCookie("totalProblemsPassedAdvanced", totalProblemsPassed, 160)
       }
+      setSubmitButtons(false)
     }
-    setSubmitButtons(false)
 
   }
 
@@ -238,7 +239,7 @@
   function setGuessedPairs() {
     console.log("in setGuessedPairs")
     var pairsString = ""
-    product = document.getElementById('numberToFactor').innerHTML;
+    // product = document.getElementById('numberToFactor').innerHTML;
     // Sort guessedPairs by first elements
     console.log("sorting guessPairs")
     guessedPairs.sort(function(a,b){return a[0] > b[0];});
